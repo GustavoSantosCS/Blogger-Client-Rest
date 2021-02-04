@@ -44,7 +44,7 @@ public class OAuthCallbackServlet extends AbstractAuthorizationCodeCallbackServl
         request.getSession().setAttribute("OAUTH", oAuth);
        
         try {
-            response.sendRedirect("/blogger-client/posts");
+            response.sendRedirect("/blogger-client/blog");
         } catch (IOException e) {
             e.printStackTrace();
         }

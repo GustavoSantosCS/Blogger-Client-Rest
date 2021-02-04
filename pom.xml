@@ -88,6 +88,18 @@
       <version>v3-rev50-1.21.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>1.19.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-client</artifactId>
+      <version>3.0.2.Final</version>
+    </dependency>
+
   </dependencies>
 
   <build>

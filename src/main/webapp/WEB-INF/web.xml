@@ -33,4 +33,13 @@
         <servlet-name>post-index</servlet-name>
         <url-pattern>/posts/index</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>blog-index</servlet-name>
+        <jsp-file>/WEB-INF/pages/blog/index.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>blog-index</servlet-name>
+        <url-pattern>/blogs/index</url-pattern>
+    </servlet-mapping>
 </web-app>
