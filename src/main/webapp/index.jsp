@@ -19,7 +19,7 @@
             if(oAuth.getToken() == ""){
                 request.getSession().invalidate();
             } else {
-                response.sendRedirect("/blogger-client/posts");
+                response.sendRedirect("/blogger-client/blogs");
             }
         } 
     %>

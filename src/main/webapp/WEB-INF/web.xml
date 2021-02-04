@@ -42,4 +42,13 @@
         <servlet-name>blog-index</servlet-name>
         <url-pattern>/blogs/index</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>post-new</servlet-name>
+        <jsp-file>/WEB-INF/pages/posts/new.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>post-new</servlet-name>
+        <url-pattern>/posts/new</url-pattern>
+    </servlet-mapping>
 </web-app>

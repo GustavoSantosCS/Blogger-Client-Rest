@@ -52,7 +52,7 @@ public class PostOfBlogServlet extends HttpServlet {
         request.getSession().setAttribute("BLOG", getBlog(blogId));
         request.getSession().setAttribute("POSTS", getPostOfBlog(blogId));
 
-        response.sendRedirect("/blogger-client/posts/index");
+        response.sendRedirect("/blogger-client/posts/index?blogId=" + blogId);
     }
 
     private Blog getBlog(String blogId) {
@@ -84,26 +84,28 @@ public class PostOfBlogServlet extends HttpServlet {
         JsonArray posts = asJsonObject.getAsJsonArray("items");
 
         List<Post> listPost = new ArrayList<>();
-        for (JsonElement postJson : posts) {
-            String postId = postJson.getAsJsonObject().get("id").getAsString();
-            String postTitle = postJson.getAsJsonObject().get("title").getAsString();
-            String postUrl = postJson.getAsJsonObject().get("url").getAsString();
-            String postContent = postJson.getAsJsonObject().get("content").getAsString();
-            LocalDateTime postPublished = parseDate(postJson.getAsJsonObject().get("published").getAsString());
-            LocalDateTime postUpdated = parseDate(postJson.getAsJsonObject().get("updated").getAsString());
+        if (posts != null)
+            for (JsonElement postJson : posts) {
+                String postId = postJson.getAsJsonObject().get("id").getAsString();
+                String postTitle = postJson.getAsJsonObject().get("title").getAsString();
+                String postUrl = postJson.getAsJsonObject().get("url").getAsString();
+                String postContent = postJson.getAsJsonObject().get("content").getAsString();
+                LocalDateTime postPublished = parseDate(postJson.getAsJsonObject().get("published").getAsString());
+                LocalDateTime postUpdated = parseDate(postJson.getAsJsonObject().get("updated").getAsString());
 
-            Post post = new Post(postId, postUrl, postTitle, postContent, postPublished, postUpdated);
-            JsonElement authorJson = postJson.getAsJsonObject().get("author");
+                Post post = new Post(postId, postUrl, postTitle, postContent, postPublished, postUpdated);
+                JsonElement authorJson = postJson.getAsJsonObject().get("author");
 
-            String authorId = authorJson.getAsJsonObject().get("id").getAsString();
-            String authorDisplayName = authorJson.getAsJsonObject().get("displayName").getAsString();
-            String authorUrl = authorJson.getAsJsonObject().get("url").getAsString();
-            String authorImage = authorJson.getAsJsonObject().get("image").getAsJsonObject().get("url").getAsString();
+                String authorId = authorJson.getAsJsonObject().get("id").getAsString();
+                String authorDisplayName = authorJson.getAsJsonObject().get("displayName").getAsString();
+                String authorUrl = authorJson.getAsJsonObject().get("url").getAsString();
+                String authorImage = authorJson.getAsJsonObject().get("image").getAsJsonObject().get("url")
+                        .getAsString();
 
-            Author author = new Author(authorId, authorDisplayName, authorUrl, authorImage);
-            post.setAuthor(author);
-            listPost.add(post);
-        }
+                Author author = new Author(authorId, authorDisplayName, authorUrl, authorImage);
+                post.setAuthor(author);
+                listPost.add(post);
+            }
         return listPost;
     }
 

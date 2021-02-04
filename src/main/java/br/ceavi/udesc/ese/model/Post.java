@@ -21,6 +21,12 @@ public class Post implements Serializable {
     private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - hh:mm", Locale.US);
 
     public Post() {
+        this.id = "";
+        this.url = "";
+        this.title = "";
+        this.content = "";
+        this.published = null;
+        this.updated = null;
     }
 
     public Post(String id, String url, String title, String content, LocalDateTime published, LocalDateTime updated) {
