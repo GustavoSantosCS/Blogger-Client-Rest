@@ -21,21 +21,26 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.jboss.resteasy.client.ClientResponse;
-
 import br.ceavi.udesc.ese.model.Blog;
 import br.ceavi.udesc.ese.model.OAuth;
 
 @WebServlet(urlPatterns = { "/blog" })
 public class OBloggerServlet extends HttpServlet {
 
+    private static final long serialVersionUID = 3825046275024129443L;
+
     private OAuth oAuth;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
+        oAuth = (OAuth) request.getSession().getAttribute("OAUTH"); 
+        if (oAuth == null || oAuth.getToken() == null || oAuth.getToken().equals("")) {
 
+            request.getSession().invalidate();
+            response.sendRedirect("/blogger-client");
+            return;
+        }
         final String URL = "https://www.googleapis.com/blogger/v3/users/self/blogs?key=" + oAuth.getApiKey();
         Client client = ClientBuilder.newClient();
         WebTarget webTarget = client.target(URL);

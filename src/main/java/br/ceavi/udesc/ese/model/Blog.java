@@ -11,9 +11,6 @@ public class Blog implements Serializable {
     private String url;
 
     public Blog() {
-        this.id = "";
-        this.name = "";
-        this.url = "";
     }
 
     public Blog(String id, String name, String url) {
