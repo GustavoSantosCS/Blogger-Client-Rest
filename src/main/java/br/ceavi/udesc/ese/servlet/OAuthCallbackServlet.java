@@ -19,27 +19,32 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.blogger.BloggerScopes;
 
+import br.ceavi.udesc.ese.model.OAuth;
+
 @WebServlet(urlPatterns = { "/oauth2callback" })
 public class OAuthCallbackServlet extends AbstractAuthorizationCodeCallbackServlet {
 
     private static final long serialVersionUID = -4075141469130952740L;
 
-    private String clientId, clientKey;
+    private OAuth oAuth;
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        clientId = (String) request.getSession().getAttribute("client-id");
-        clientKey = (String) request.getSession().getAttribute("client-key");
+        oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
         super.doGet(request, response);
     }
 
     @Override
     protected void onSuccess(HttpServletRequest request, HttpServletResponse response, Credential credential)
             throws ServletException, IOException {
-        request.getSession().setAttribute("token", credential.getAccessToken());
+        String token = credential.getAccessToken();
+       
+        oAuth.setToken(token);
+        request.getSession().setAttribute("OAUTH", oAuth);
+       
         try {
-            response.sendRedirect("/blogger-client");
+            response.sendRedirect("/blogger-client/posts");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,11 +73,11 @@ public class OAuthCallbackServlet extends AbstractAuthorizationCodeCallbackServl
         List<String> scopes = Arrays.asList(BloggerScopes.BLOGGER);
 
         return new GoogleAuthorizationCodeFlow.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(),
-                clientId, clientKey, scopes).setAccessType("online").setApprovalPrompt("auto").build();
+             oAuth.getClientId(), oAuth.getClientKey(), scopes).setAccessType("online").setApprovalPrompt("auto").build();
     }
 
     @Override
     protected String getUserId(HttpServletRequest request) throws ServletException, IOException {
-        return (String) request.getSession().getAttribute("client-id");
+        return ((OAuth) request.getSession().getAttribute("OAUTH")).getClientId();
     }
 }

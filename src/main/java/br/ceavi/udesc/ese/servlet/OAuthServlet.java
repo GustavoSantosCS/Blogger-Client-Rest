@@ -17,23 +17,25 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.blogger.BloggerScopes;
 
+import br.ceavi.udesc.ese.model.OAuth;
+
 @WebServlet(urlPatterns = { "/auth" })
 public class OAuthServlet extends AbstractAuthorizationCodeServlet {
 
     private static final long serialVersionUID = 5483786041416456286L;
 
-    private String clientId, clientKey, apiKey;
+    private OAuth oAuth;
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        clientId = request.getParameter("client-id");
-        clientKey = request.getParameter("client-key");
-        apiKey = request.getParameter("api-key");
-        request.getSession().setAttribute("api-key", apiKey);
-        request.getSession().setAttribute("client-id", clientId);
-        request.getSession().setAttribute("client-key", clientKey);
-
+        String clientId = request.getParameter("client-id");
+        String clientKey = request.getParameter("client-key");
+        String apiKey = request.getParameter("api-key");
+    
+        oAuth = new OAuth(apiKey, clientId, clientKey, "");
+        request.getSession().setAttribute("OAUTH", oAuth);
+        
         super.service(request, response);
     }
 
@@ -46,15 +48,15 @@ public class OAuthServlet extends AbstractAuthorizationCodeServlet {
 
     @Override
     protected AuthorizationCodeFlow initializeFlow() throws IOException {
-
+     
         List<String> scopes = Arrays.asList(BloggerScopes.BLOGGER);
         return new GoogleAuthorizationCodeFlow.Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance(),
-                clientId, clientKey, scopes).setAccessType("online").setApprovalPrompt("auto").build();
+                oAuth.getClientId(), oAuth.getClientKey(), scopes).setAccessType("online").setApprovalPrompt("auto").build();
     }
 
     @Override
     protected String getUserId(HttpServletRequest request) throws ServletException, IOException {
-        return request.getParameter("client-id");
+        return ((OAuth) request.getSession().getAttribute("OAUTH")).getClientId();
     }
 
 }
