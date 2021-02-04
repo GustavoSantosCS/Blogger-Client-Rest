@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css');
+*, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+}
+
+.center-body {
+    width: 100vw;
+    height: 100vh;
+    background: #F0F0F0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+}
+
+.box {
+    background: #fff;
+    border-radius: .25rem!important;
+    padding: 3rem!important;
+    border: 1px solid #dee2e6!important;
+}
+
+.box-btn {
+    border-radius: .25rem!important;
+    padding: 1.25rem!important;
+    border: 1px solid #dee2e6!important;
+    background: #fff;
+}
+
+.box-btn:hover{
+    background: #F0F0F0;
+}
+
+.box-btn a {
+    text-decoration: none;
+}

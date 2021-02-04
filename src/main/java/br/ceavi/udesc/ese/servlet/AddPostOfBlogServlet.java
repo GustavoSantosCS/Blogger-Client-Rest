@@ -2,7 +2,6 @@ package br.ceavi.udesc.ese.servlet;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.logging.LogManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
