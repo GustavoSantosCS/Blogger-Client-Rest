@@ -16,7 +16,7 @@
             if(oAuth.getToken() == null || oAuth.getToken().equals("")){
                 request.getSession().invalidate();
             } else {
-                response.sendRedirect("/blogger-client/blogs");
+                response.sendRedirect("/blogger-client/blog");
             }
         } 
     %>
