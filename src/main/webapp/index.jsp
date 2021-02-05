@@ -37,18 +37,18 @@
                             <legend>Dados Da OAuth 2.0</legend>
                             <div>
                                 <label class="form-label" for="client-id">Client ID:*</label>
-                                <input class="form-control" id="client-id" type="text" name="client-id" value="178025322854-87tm5i1nftuafnjnvf04ndm8empf6jja.apps.googleusercontent.com" required>
+                                <input class="form-control" id="client-id" type="text" name="client-id" required>
                             </div>
                             <div>
                                 <label class="form-label" for="client-key">Client Secret:*</label>
-                                <input class="form-control" id="client-key" type="password" name="client-key" value="cXbpi1eBLYLc4eJ20g7-Nnm7" required>
+                                <input class="form-control" id="client-key" type="password" name="client-key" required>
                             </div>
                         </fieldset>
                         <fieldset title="Dados da API">
                             <legend>Dados Da API</legend>
                             <div>
                                 <label class="form-label" for="api-key">Api Key:*</label>
-                                <input class="form-control" id="api-key" type="text" name="api-key" value="AIzaSyCwfAUOHRYkapb4eJIbYGnUm148ty6DKpQ" required>
+                                <input class="form-control" id="api-key" type="text" name="api-key" required>
                             </div>
                         </fieldset>
                         <div class="mt-3 text-center">
