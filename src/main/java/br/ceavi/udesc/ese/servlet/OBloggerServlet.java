@@ -55,14 +55,15 @@ public class OBloggerServlet extends HttpServlet {
         JsonArray blogs = asJsonObject.getAsJsonArray("items");
 
         List<Blog> listBlog = new ArrayList<>();
-        for (JsonElement blog : blogs) {
-            String blogID = blog.getAsJsonObject().get("id").getAsString();
-            String blogName = blog.getAsJsonObject().get("name").getAsString();
-            String blogUrl = blog.getAsJsonObject().get("url").getAsString();
-            listBlog.add(new Blog(blogID, blogName, blogUrl));
+        if(blogs != null) {
+            for (JsonElement blog : blogs) {
+                String blogID = blog.getAsJsonObject().get("id").getAsString();
+                String blogName = blog.getAsJsonObject().get("name").getAsString();
+                String blogUrl = blog.getAsJsonObject().get("url").getAsString();
+                listBlog.add(new Blog(blogID, blogName, blogUrl));
+            }
+            request.getSession().setAttribute("BLOGS", listBlog);
         }
-        request.getSession().setAttribute("BLOGS", listBlog);
-
         response.sendRedirect("/blogger-client/blogs/index");
     }
 }

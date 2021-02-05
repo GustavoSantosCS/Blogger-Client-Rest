@@ -7,6 +7,8 @@
 <head>
     <title>Blogger Rest Client</title>
     <meta content="text/html; charset=utf-8" />
+    
+    <link rel="stylesheet" href="/blogger-client/css/styles.css">
 </head>
     <% 
         OAuth oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
@@ -17,28 +19,31 @@
             return;
         }
     %>
-        <%=request.getSession().getAttribute("ERRO")%>
 <body>
-
-    <form action="/blogger-client/post/new" method="post">
-        <p>É necessário realizar a autentificação perante o Google</p>
-        <fieldset title="Novo Post">
-            <legend>Novo Post</legend>
-            <input type="hidden" name="blogId" value="<%=request.getParameter("blogId")%>">
-            <div>
-                <label for="title">Titulo:*</label>
-                <input id="title" type="text" name="title" required>
-            </div>
-            <div>
-                <label for="content">Corpo</label>
-                <input id="content" type="text" name="content"  required>
-            </div>
-        </fieldset>
-        <div class="btn-group">
-            <a href="post" class="btn">Voltar</a>
-            <button type="submit" >Postar</button>
+    <div class="container">
+        <div class="row">
+            <h1 class="mt-3 mb-5">Nova Postagem</h1>
+            <form class="col-md-6 mx-auto" action="/blogger-client/post/new" method="post">
+                <input type="hidden" name="blogId" value="<%=request.getParameter("blogId")%>">
+                <div class="mb-3">
+                  <label for="title" class="form-label">Titulo: </label>
+                  <input type="text" name="title" class="form-control" id="title" required>
+                </div>
+                <div class="mb-3">   
+                    <label for="content">Corpo: </label>
+                    <textarea name="content" class="form-control" placeholder="Corpo da Postagem"style="height: 100px"></textarea>
+                </div>
+                <div class="mt-3 text-center">
+                    <div>
+                        <a href="post" class="btn btn-danger">Voltar</a>
+                        <button type="submit" class="btn btn-success" >Publicar</button>
+                    </div>
+                </div>
+           
+              </form>
         </div>
-    </form>
+    </div>
+   
 
 </body>
 </html>

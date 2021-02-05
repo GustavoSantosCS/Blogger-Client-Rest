@@ -11,6 +11,8 @@
 <head>
     <title>Blogger Rest Client</title>
     <meta content="text/html; charset=utf-8" />
+    
+    <link rel="stylesheet" href="/blogger-client/css/styles.css">
 </head>
     <% 
         OAuth oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
@@ -20,35 +22,48 @@
             response.sendRedirect("/blogger-client");
             return;
         }
+         Blog blog = (Blog) request.getSession().getAttribute("BLOG");
     %>
 <body>
-    <h1>Todos os Post</h1>
-    <% 
-        Blog blog = (Blog) request.getSession().getAttribute("BLOG");
-        List<Post> posts = (List<Post>) request.getSession().getAttribute("POSTS");
-        if(posts != null)
-            for (Post post : posts) {
-    %>
-            <section>
-                <div class="post">
-                    <h2 class="post-title"><%=post.getTitle()%></h2>
-                        <div class="post-author-container">
-                            <h3>Autor:</h3>
-                            <p class="post-author-name"><%=post.getAuthor().getDisplayName()%></p>
-                            <p class="post-author-id"><%=post.getAuthor().getId()%></p>
-                        </div>
-                        <div class="post-data">
-                            <p>Data de Criação: <%=post.getFormatPublished()%></p>
-                            <p>Data do Ultima Atualiação: <%=post.getFormatUpdated()%></p>
-                        </div>
-                        <div class="post-content">
-                            <%=post.getContent()%>
-                        </div>
-                </div>
-            </section>
-    <%  
-            } 
-    %>
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-6 mx-auto">
+    
+                <h1 class="text-center m-5">Todos os Post</h1>
+                    <div class="my-3 text-center">
+                            <a href="/blogger-client/posts/new?blogId=<%=blog.getId()%>" class="btn btn-primary btn-lg" type="submit" >Nova Publicação</a>
+                    </div>
+                <% 
+                   
+                    List<Post> posts = (List<Post>) request.getSession().getAttribute("POSTS");
+                    if(posts != null)
+                        for (Post post : posts) {
+                %>
+                            <section class="mb-3">
+                                <div class="card text-center">
+                                    <div class="card-header">
+                                        <%=post.getAuthor().getDisplayName()%>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <%=post.getTitle()%>
+                                        </h5>
+                                        <p class="card-text">
+                                            <%=post.getContent()%>    
+                                        </p>
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        Criado em: <cite title="Source Title"><%=post.getFormatPublished()%></cite>
+                                    </div>
+                                </div>
+                            </section>
+                <%  
+                        } 
+                %>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
