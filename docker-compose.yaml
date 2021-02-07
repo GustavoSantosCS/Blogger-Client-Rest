@@ -3,7 +3,7 @@ version: "3.7"
 services:
   servidor:
     image: tomcat:9.0
-    container_name: restart blogger-client-rest
+    container_name: blogger-client-rest
     ports:
       - 80:8080
     volumes:
