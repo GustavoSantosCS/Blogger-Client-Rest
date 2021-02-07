@@ -24,12 +24,10 @@ public class AddPostOfBlogServlet extends HttpServlet {
 
     static final String NEW_POST_RESPONSE = "NEW_POST_RESPONSE";
 
-    private OAuth oAuth;
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
+        OAuth oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
         if (oAuth == null || oAuth.getToken() == null || oAuth.getToken().equals("")) {
 
             request.getSession().invalidate();
