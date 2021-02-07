@@ -32,7 +32,7 @@
     
                 <h1 class="text-center m-5">Todos os Post</h1>
                     <div class="my-3 text-center">
-                            <a href="/blogger-client/post/new?blogId=<%=blog.getId()%>" class="btn btn-primary btn-lg" type="submit" >Nova Publicação</a>
+                            <a href="/blogger-client/postagens/new?blogId=<%=blog.getId()%>" class="btn btn-primary btn-lg" type="submit" >Nova Publicação</a>
                     </div>
                 <% 
                    

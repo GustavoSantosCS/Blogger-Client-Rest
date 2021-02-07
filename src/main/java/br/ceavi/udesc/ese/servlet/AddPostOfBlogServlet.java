@@ -1,7 +1,7 @@
 package br.ceavi.udesc.ese.servlet;
 
-import java.io.IOException;
-import java.util.Arrays;
+import br.ceavi.udesc.ese.model.OAuth;
+import br.ceavi.udesc.ese.model.PostCreate;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,22 +13,35 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.Arrays;
 
-import br.ceavi.udesc.ese.model.OAuth;
-import br.ceavi.udesc.ese.model.PostCreate;
-
-@WebServlet(urlPatterns = { "/post/new" })
+@WebServlet(urlPatterns = {"/postagens/new"})
 public class AddPostOfBlogServlet extends HttpServlet {
 
     static final long serialVersionUID = -3940147985686093737L;
 
     static final String NEW_POST_RESPONSE = "NEW_POST_RESPONSE";
+    OAuth oAuth;
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (checkSession(request, response)) return;
+
+        String blogId = request.getParameter("blogId");
+        if (blogId != null) {
+            request
+                    .getRequestDispatcher("/WEB-INF/pages/posts/new.jsp")
+                    .forward(request, response);
+        } else {
+            response.sendRedirect("/blogger-client/blog");
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OAuth oAuth = checkSession(request, response);
-        if (oAuth == null) return;
+        if (checkSession(request, response)) return;
 
         String blogId = request.getParameter("blogId");
         String title = request.getParameter("title");
@@ -37,7 +50,7 @@ public class AddPostOfBlogServlet extends HttpServlet {
         PostCreate newPost = new PostCreate();
         newPost.setTitle(title);
         newPost.setContent(content);
-       
+
         // Adicionar o post
         final String URL = "https://www.googleapis.com/blogger/v3/blogs/" + blogId + "/posts/";
         Client client = ClientBuilder.newClient();
@@ -55,21 +68,22 @@ public class AddPostOfBlogServlet extends HttpServlet {
                     resp.getStatusInfo().toString(),
                     resp.getStatus(),
                     resp.readEntity(String.class)
-                    ));
+            ));
         }
 
-        response.sendRedirect("/blogger-client/post?blogId="+ blogId);
+        response.sendRedirect("/blogger-client/postagens?blogId=" + blogId);
     }
 
-    private OAuth checkSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        OAuth oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
+
+    private boolean checkSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
         if (oAuth == null || oAuth.getToken() == null || oAuth.getToken().equals("")) {
 
             request.getSession().invalidate();
             response.sendRedirect("/blogger-client");
-            return null;
+            return true;
         }
-        return oAuth;
+        return false;
     }
 
 }

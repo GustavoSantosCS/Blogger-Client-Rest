@@ -23,7 +23,7 @@
     <div class="container">
         <div class="row">
             <h1 class="mt-3 mb-5">Nova Postagem</h1>
-            <form class="col-md-6 mx-auto" action="/blogger-client/post/new" method="post">
+            <form class="col-md-6 mx-auto" action="/blogger-client/postagens/new" method="post">
                 <input type="hidden" name="blogId" value="<%=request.getParameter("blogId")%>">
                 <div class="mb-3">
                   <label for="title" class="form-label">Titulo: </label>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="mt-3 text-center">
                     <div>
-                        <a href="post" class="btn btn-danger">Voltar</a>
+                        <a href="/blogger-client/postagens?blogId=<%=request.getParameter("blogId")%>" class="btn btn-danger">Voltar</a>
                         <button type="submit" class="btn btn-success" >Publicar</button>
                     </div>
                 </div>
@@ -43,7 +43,6 @@
               </form>
         </div>
     </div>
-   
 
 </body>
 </html>
