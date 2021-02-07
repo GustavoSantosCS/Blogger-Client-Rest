@@ -28,7 +28,7 @@
                 <h1>Todos os Blogs</h1>
                 
                 <% 
-                    List<Blog> blogs = (List<Blog>) request.getSession().getAttribute("BLOGS");
+                    List<Blog> blogs = (List<Blog>) request.getAttribute("BLOGS");
                         if(blogs != null)
                         for (Blog blog : blogs) {
                             %>

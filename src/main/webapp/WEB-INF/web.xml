@@ -22,19 +22,6 @@
     </welcome-file-list>
 
     <servlet>
-        <servlet-name>post-index</servlet-name>
-        <jsp-file>/WEB-INF/pages/posts/index.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>post-index</servlet-name>
-        <url-pattern>/posts</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>post-index</servlet-name>
-        <url-pattern>/posts/index</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>blog-index</servlet-name>
         <jsp-file>/WEB-INF/pages/blog/index.jsp</jsp-file>
     </servlet>

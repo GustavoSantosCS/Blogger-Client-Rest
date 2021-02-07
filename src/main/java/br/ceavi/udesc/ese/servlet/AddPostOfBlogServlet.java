@@ -27,13 +27,8 @@ public class AddPostOfBlogServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        OAuth oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
-        if (oAuth == null || oAuth.getToken() == null || oAuth.getToken().equals("")) {
-
-            request.getSession().invalidate();
-            response.sendRedirect("/blogger-client");
-            return;
-        }
+        OAuth oAuth = checkSession(request, response);
+        if (oAuth == null) return;
 
         String blogId = request.getParameter("blogId");
         String title = request.getParameter("title");
@@ -64,6 +59,17 @@ public class AddPostOfBlogServlet extends HttpServlet {
         }
 
         response.sendRedirect("/blogger-client/post?blogId="+ blogId);
+    }
+
+    private OAuth checkSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        OAuth oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
+        if (oAuth == null || oAuth.getToken() == null || oAuth.getToken().equals("")) {
+
+            request.getSession().invalidate();
+            response.sendRedirect("/blogger-client");
+            return null;
+        }
+        return oAuth;
     }
 
 }

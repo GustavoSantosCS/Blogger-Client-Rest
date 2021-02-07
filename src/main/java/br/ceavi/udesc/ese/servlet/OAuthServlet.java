@@ -58,5 +58,4 @@ public class OAuthServlet extends AbstractAuthorizationCodeServlet {
     protected String getUserId(HttpServletRequest request) throws ServletException, IOException {
         return ((OAuth) request.getSession().getAttribute("OAUTH")).getClientId();
     }
-
 }
