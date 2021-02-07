@@ -22,7 +22,7 @@
             response.sendRedirect("/blogger-client");
             return;
         }
-         Blog blog = (Blog) request.getSession().getAttribute("BLOG");
+         Blog blog = (Blog) request.getAttribute("BLOG");
     %>
 <body>
     <div class="container">
@@ -32,11 +32,11 @@
     
                 <h1 class="text-center m-5">Todos os Post</h1>
                     <div class="my-3 text-center">
-                            <a href="/blogger-client/posts/new?blogId=<%=blog.getId()%>" class="btn btn-primary btn-lg" type="submit" >Nova Publicação</a>
+                            <a href="/blogger-client/post/new?blogId=<%=blog.getId()%>" class="btn btn-primary btn-lg" type="submit" >Nova Publicação</a>
                     </div>
                 <% 
                    
-                    List<Post> posts = (List<Post>) request.getSession().getAttribute("POSTS");
+                    List<Post> posts = (List<Post>) request.getAttribute("POSTS");
                     if(posts != null)
                         for (Post post : posts) {
                 %>

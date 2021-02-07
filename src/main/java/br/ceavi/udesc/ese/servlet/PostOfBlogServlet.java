@@ -1,11 +1,13 @@
 package br.ceavi.udesc.ese.servlet;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import br.ceavi.udesc.ese.model.Author;
+import br.ceavi.udesc.ese.model.Blog;
+import br.ceavi.udesc.ese.model.OAuth;
+import br.ceavi.udesc.ese.model.Post;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,18 +19,14 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import br.ceavi.udesc.ese.model.Author;
-import br.ceavi.udesc.ese.model.Blog;
-import br.ceavi.udesc.ese.model.OAuth;
-import br.ceavi.udesc.ese.model.Post;
-
-@WebServlet(urlPatterns = { "/post" })
+@WebServlet(urlPatterns = {"/postagens"})
 public class PostOfBlogServlet extends HttpServlet {
 
     private static final long serialVersionUID = -8109475717496411673L;
@@ -40,19 +38,30 @@ public class PostOfBlogServlet extends HttpServlet {
             throws ServletException, IOException {
         request.getSession().removeAttribute("BLOGS");
 
+        if (checkSession(request, response)) return;
+        String blogId = request.getParameter("blogId");
+
+        if (blogId != null) {
+            request.setAttribute("BLOG", getBlog(blogId));
+            request.setAttribute("POSTS", getPostOfBlog(blogId));
+
+            request
+                    .getRequestDispatcher("/WEB-INF/pages/posts/index.jsp")
+                    .forward(request, response);
+        } else {
+            response.sendRedirect("/blogger-client/blog");
+        }
+    }
+
+    private boolean checkSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
         oAuth = (OAuth) request.getSession().getAttribute("OAUTH");
         if (oAuth == null || oAuth.getToken() == null || oAuth.getToken().equals("")) {
 
             request.getSession().invalidate();
             response.sendRedirect("/blogger-client");
-            return;
+            return true;
         }
-        String blogId = request.getParameter("blogId");
-
-        request.getSession().setAttribute("BLOG", getBlog(blogId));
-        request.getSession().setAttribute("POSTS", getPostOfBlog(blogId));
-
-        response.sendRedirect("/blogger-client/posts/index?blogId=" + blogId);
+        return false;
     }
 
     private Blog getBlog(String blogId) {

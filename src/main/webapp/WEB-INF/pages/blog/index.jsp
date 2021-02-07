@@ -33,7 +33,7 @@
                         for (Blog blog : blogs) {
                             %>
                                 <div class="box-btn">
-                                    <a href="/blogger-client/post?blogId=<%=blog.getId()%>">
+                                    <a href="/blogger-client/postagens?blogId=<%=blog.getId()%>">
                                         <%=blog.getName()%>
                                     </a>  
                                 </div>
