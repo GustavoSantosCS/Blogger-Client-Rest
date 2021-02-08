@@ -23,6 +23,17 @@
     <div class="container">
         <div class="row">
             <h1 class="mt-3 mb-5">Nova Postagem</h1>
+
+            <%
+                if(request.getAttribute("NEW_POST_RESPONSE_ERRO") != null){
+                    out.println("<p class='text-danger'>Não foi possível criar o post</p>");
+                    String message = (String) request.getAttribute("NEW_POST_RESPONSE_ERRO_MESSAGE");
+                    out.println("<p class='text-danger'>" + message + "</p>");
+                    request.removeAttribute("NEW_POST_RESPONSE_ERRO");
+                    request.removeAttribute("NEW_POST_RESPONSE_ERRO_MESSAGE");
+                }
+            %>
+
             <form class="col-md-6 mx-auto" action="/blogger-client/postagens/new" method="post">
                 <input type="hidden" name="blogId" value="<%=request.getParameter("blogId")%>">
                 <div class="mb-3">

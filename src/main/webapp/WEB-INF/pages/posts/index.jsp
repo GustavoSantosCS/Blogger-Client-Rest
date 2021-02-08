@@ -34,6 +34,12 @@
                     <div class="my-3 text-center">
                             <a href="/blogger-client/postagens/new?blogId=<%=blog.getId()%>" class="btn btn-primary btn-lg" type="submit" >Nova Publicação</a>
                     </div>
+                <%
+                    if(request.getSession().getAttribute("NEW_POST_RESPONSE_OK") != null){
+                        out.println("<p class='text-info'>Post Criado Com Sucesso</p>");
+                        request.getSession().removeAttribute("NEW_POST_RESPONSE_OK");
+                    }
+                %>
                 <% 
                    
                     List<Post> posts = (List<Post>) request.getAttribute("POSTS");
